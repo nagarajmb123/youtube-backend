@@ -97,3 +97,30 @@ userSchema.methods.generateRefreshToken = function(){
 
 
 export const User = mongoose.model("User",userSchema)
+
+
+
+/*
+
+Why JWT is Needed:
+Stateless Authentication: JWTs allow for stateless authentication, meaning the server does not need to store session information.
+ Instead, all necessary user information is stored in the token itself.
+Security: JWTs can securely transmit information between parties as they are signed using a secret key.
+
+Generating Access Tokens: JWTs are generated when a user logs in or performs an action that requires authentication.
+ These tokens are used to authenticate subsequent requests:
+
+ Generating Refresh Tokens: Refresh tokens are used to obtain new access tokens without requiring the user to log in again.
+  This helps maintain a seamless user experience:
+
+
+
+Hashing Passwords: When a user creates or updates their password,
+ bcrypt will hash the password before storing it in the database. 
+ This is done in the pre("save") middleware:
+Comparing Passwords: When a user logs in, 
+bcrypt is used to compare the entered password with the stored hashed password:
+
+
+
+*/
