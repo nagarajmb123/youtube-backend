@@ -7,7 +7,7 @@ class ApiResponse{
     }
 }
 
-export {ApiResponse}
+export { ApiResponse }
 
 // By using ApiResponse, you ensure a consistent response structure for your API,
 //  which can be very helpful for clients consuming your API.
