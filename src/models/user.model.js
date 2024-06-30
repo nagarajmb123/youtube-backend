@@ -111,7 +111,8 @@ Generating Access Tokens: JWTs are generated when a user logs in or performs an 
  These tokens are used to authenticate subsequent requests:
 
  Generating Refresh Tokens: Refresh tokens are used to obtain new access tokens without requiring the user to log in again.
-  This helps maintain a seamless user experience:
+  This helps maintain a seamless user experience:(When the access token expires, the refresh token enables you to seamlessly
+   get a new access token to continue the API session, without asking the user to re-authenticate.)
 
 
 
