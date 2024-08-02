@@ -121,7 +121,9 @@ const registerUser = asyncHandler( async (req,res)=>{
         throw new ApiError(500," something went wrong while registering the user")
       }
 
-      return res.status(201).json(
+      return res
+      .status(201)
+      .json(
         new ApiResponse(200,createdUser," user registered successfully ")
       )
 })
@@ -218,14 +220,14 @@ const logoutUser = asyncHandler(async (req, res) => {
 
 const refreshAccessToken = asyncHandler ( async (req,res)=>{
 
-    const incomingRefreshToken = req.cookie.refreshToken || req.body.refreshToken
-
+    const incomingRefreshToken = req.cookie?.refreshToken || req.body?.refreshToken
+  console.log(incomingRefreshToken)
     if(!incomingRefreshToken){
         throw new ApiError(401, " unathorized request ")
     }
 
     try {
-      const decodedToken =  jwt.verify(
+      const decodedToken =  jwt.verify( 
         incomingRefreshToken,
         process.env.REFRESH_TOKEN_SECRET
       )
@@ -255,7 +257,8 @@ const refreshAccessToken = asyncHandler ( async (req,res)=>{
         new ApiResponse(
             200,
             {accessToken,refreshToken : newRefreshToken}
-            ," Access token refreshed "
+            ,
+            " Access token refreshed "
         )
       )
     } catch (error) {

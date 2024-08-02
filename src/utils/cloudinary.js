@@ -7,24 +7,51 @@ cloudinary.config({
     api_secret: process.env.CLOUDINARY_API_SECRET // Click 'View Credentials' below to copy your API secret
 });
 
-
-
 const uploadOnCloudinary = async (localFilePath) => {
     try {
-        if (!localFilePath) return null
-        //upload the file on cloudinary
+        if (!localFilePath) {
+            console.error("Local file path is not provided");
+            return null;
+        }
+
+        // Upload the file to Cloudinary
         const response = await cloudinary.uploader.upload(localFilePath, {
             resource_type: "auto"
-        })
-        // file has been uploaded successfull
-        // console.log("file is uploaded on cloudinary ", response.url);
-        fs.unlinkSync(localFilePath)
-        return response;
+        });
 
+        console.log("Upload successful:", response);
+
+        // Check if the file exists before attempting to delete it
+        if (fs.existsSync(localFilePath)) {
+            fs.unlinkSync(localFilePath);
+        }
+
+        return response;
     } catch (error) {
-        fs.unlinkSync(localFilePath) // remove the locally saved temporary file as the upload operation got failed
+        console.error("Error during upload to Cloudinary:", error);
+
+        // Check if the file exists before attempting to delete it
+        if (fs.existsSync(localFilePath)) {
+            fs.unlinkSync(localFilePath); 
+        }
+
         return null;
     }
-}
+};
 
-export {uploadOnCloudinary};
+const deleteFileFromCloudinary = async (localFilePath, path = "image") => {
+    try {
+        if (!localFilePath) return null;
+        console.log("file", localFilePath)
+        const response = await cloudinary.uploader.destroy(localFilePath, {
+            resource_type: path
+        });
+        console.log(response)
+        return response;
+    } catch (err) {
+        console.error("Error deleting file from Cloudinary:", err);
+        return null;
+    }
+};
+
+export {uploadOnCloudinary,deleteFileFromCloudinary};
